@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
-const sudokuGenerator = require('./components/sudokuGenerator');
+const sudokuGenerator = require('../components/sudokuGenerator');
 const db = require('../db/db');
 
 const port = 3000;
@@ -11,14 +11,16 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-app.get('/puzzle', (req, res) => {
+app.get('/newPuzzle', (req, res) => {
   const newPuzzle = sudokuGenerator();
-  db.addPuzzle(newPuzzle, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(data);
-    }
+  db.addPuzzle(newPuzzle, (data) => {
+    res.send(data);
+  });
+});
+
+app.get('/puzzleSol', (req, res) => {
+  db.getSolution(req.data.id, (data) => {
+    res.send(data);
   });
 });
 

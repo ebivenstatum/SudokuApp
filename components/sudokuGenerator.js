@@ -11,7 +11,7 @@ const sudokuGenerator = () => {
   // helper function
   const subgridFinder = (i, j, currentBoard) => {
     const subgrid = [];
-    å
+
     if (i % 3 === 0) {
 
       if (j % 3 === 0) {
@@ -170,6 +170,6 @@ const sudokuGenerator = () => {
   const puzzleBoard = makePuzzle(blankBoard, solutionBoard);
 
   return { puzzle: puzzleBoard, solution: solutionBoard };
-}
+};
 
-export default sudokuGenerator;
+module.exports = sudokuGenerator;
