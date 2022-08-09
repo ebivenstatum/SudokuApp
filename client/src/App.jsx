@@ -1,8 +1,12 @@
 import React from 'react';
 
+import Sudoku from './components/sudoku';
+
 function App() {
   return (
-    <div></div>
+    <div>
+      <Sudoku />
+    </div>
   );
 };
 
