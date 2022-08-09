@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Need a 9x9 grid, with 3x3 subgrids
@@ -10,6 +10,7 @@ function Sudoku() {
 
   const [sudokuBoard, setSudokuBoard] = useState([]);
   const [boardId, setBoardId] = useState({});
+  const [boardComponent, setBoardComponent] = useState([]);
 
   const sudokuFetcher = () => {
     // make axios request for a sudoku
@@ -41,39 +42,51 @@ function Sudoku() {
       .catch(err => console.log(err));
   };
 
+  const handleChange = (event) => {
+    console.log(event.target.id);
+
+  };
+
   const makeBoardComponent = (inputBoard) => {
     const component = [];
-    let key = 1;
 
-    inputBoard.forEach(row => {
-      row.forEach(cell => {
-        if(cell === 0) {
-        component.push(<input className="notFilled" key={key} value={null} />);
-        key++;
-      } else {
-        component.push(<input className="preFilled" key={key} value={cell} />);
-        key++;
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const key = `${i}${j}`
+        if (inputBoard[i][j] === 0) {
+          component.push(<input className="notFilled" key={key} id={key} value={null} onChange={handleChange} />);
+        } else {
+          component.push(<input className="preFilled" key={key} id={key} value={inputBoard[i][j]} disabled />);
+        }
       }
-    });
-  });
+    }
 
-  return component;
-};
+    return component;
+  };
 
-if (sudokuBoard.length === 0) {
-  sudokuFetcher();
-}
+  useEffect(() => {
+    if (sudokuBoard.length === 0) {
+      sudokuFetcher();
+    }
+  })
 
-const boardComponent = makeBoardComponent(sudokuBoard);
+  useEffect(() => {
+    if (sudokuBoard.length > 0) {
+      setBoardComponent(makeBoardComponent(sudokuBoard));
+    }
+  }, [sudokuBoard])
 
-return (
-  <div>
-    <h3 className="boardNumber">#1</h3>
-    <div className="boardContainer">
-      {boardComponent}
-    </div>
-  </div>
-)
+  if (boardComponent !== undefined) {
+    return (
+      <div>
+        <div className="boardContainer">
+          {boardComponent}
+        </div>
+      </div>
+    )
+  }
+
+
 
 };
 
