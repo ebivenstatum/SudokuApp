@@ -27,6 +27,10 @@ function Sudoku() {
   const sudokuFetcher = () => {
     // make axios request for a sudoku
     // the set sudokuBoard to the fetched board
+    const config = {
+      method: "GET",
+      url: "http://localhost:3000/puzzle"
+    }
   };
 
   const sudokuChecker = (board) => {
