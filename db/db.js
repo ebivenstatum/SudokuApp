@@ -40,7 +40,7 @@ const addPuzzle = (newPuzzle, callback) => {
 const getSolution = (puzzleId, callback) => {
 
     Puzzles
-        .findOne()
+        .findOne({_id: puzzleId})
         .then(res => callback(res.solution))
         .catch((err) => console.log(err));
 

@@ -12,7 +12,7 @@ function Sudoku() {
   const [boardId, setBoardId] = useState({});
   const [boardComponent, setBoardComponent] = useState([]);
   const [preFilled, setPreFilled] = useState([]);
-  const [filledBoard, setFilledBoard] = useState([])
+  const [boardForm, setBoardForm] = useState([]);
 
   const sudokuFetcher = () => {
     const config = {
@@ -37,36 +37,38 @@ function Sudoku() {
         }
       })
       .catch(err => console.log(err));
+
   };
 
-  const sudokuChecker = (board) => {
+  const sudokuChecker = () => {
+    const data = {
+      id: boardId,
+      puzzle: sudokuBoard,
+    };
     const config = {
-      method: "GET",
-      url: "http://localhost:3000/puzzleSol",
-      data: { boardId, sudokuBoard }
+      method: "POST",
+      url: "/puzzleSol",
+      data: data,
     }
-    axios(config)
+    axios.post('/puzzleSol', data)
       .then((res) => {
+        if (res.data === 'Valid') {
+
+        } else {
+
+        }
       })
       .catch(err => console.log(err));
   };
 
-  const handleChange = (event) => { // filledBoard is an empty array in here for some reason
-    const newBoard = [[], [], [], [], [], [], [], [], [] ];
-    console.log(newBoard, filledBoard);
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        newBoard[i][j] = filledBoard[i][j];
-      }
-    }
-    console.log(newBoard, filledBoard);
-    newBoard[parseInt(event.target.id[0])][parseInt(event.target.id[0])] = parseInt(event.target.value);
-    setFilledBoard(newBoard);
+  const handleChange = (event) => {
+    sudokuBoard[parseInt(event.target.id[0])][parseInt(event.target.id[1])] = parseInt(event.target.value);
+    setBoardForm(sudokuBoard);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(filledBoard);
+    sudokuChecker();
   };
 
   const makeBoardComponent = (inputBoard) => {
@@ -93,19 +95,19 @@ function Sudoku() {
   });
 
   useEffect(() => {
+    if (boardForm.length === 0 && sudokuBoard.length > 0) {
+      setBoardForm(sudokuBoard);
+    }
+  });
+
+  useEffect(() => {
     if (sudokuBoard.length > 0 && boardComponent.length === 0) {
       setBoardComponent(makeBoardComponent(sudokuBoard));
     }
   });
 
-  useEffect(() => {
-    if (filledBoard.length === 0 && sudokuBoard.length > 0) {
-      setFilledBoard(sudokuBoard);
-    }
-  });
+  if (boardComponent.length > 0) {
 
-  if (boardComponent.length > 0 && filledBoard.length > 0) {
-    console.log(filledBoard)
     return (
       <div>
         <div className="boardContainer">
@@ -116,10 +118,8 @@ function Sudoku() {
 
         </div>
       </div>
-    )
+    );
   }
-
-
 
 };
 
