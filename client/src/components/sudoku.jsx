@@ -11,10 +11,10 @@ function Sudoku() {
   const [sudokuBoard, setSudokuBoard] = useState([]);
   const [boardId, setBoardId] = useState({});
   const [boardComponent, setBoardComponent] = useState([]);
+  const [preFilled, setPreFilled] = useState([]);
+  const [filledBoard, setFilledBoard] = useState([])
 
   const sudokuFetcher = () => {
-    // make axios request for a sudoku
-    // the set sudokuBoard to the fetched board
     const config = {
       method: "GET",
       url: "http://localhost:3000/newPuzzle"
@@ -23,14 +23,23 @@ function Sudoku() {
       .then((res) => {
         setSudokuBoard(res.data.puzzle);
         setBoardId(res.data.id);
+        const filled = [];
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            if (res.data.puzzle[i][j] !== 0) {
+              filled.push(`${i}${j}`)
+            }
+          }
+
+        }
+        if (filled.length > 0) {
+          setPreFilled(filled);
+        }
       })
       .catch(err => console.log(err));
-
   };
 
   const sudokuChecker = (board) => {
-    // checks db for board solution
-    // for each cell, check if they match
     const config = {
       method: "GET",
       url: "http://localhost:3000/puzzleSol",
@@ -42,9 +51,22 @@ function Sudoku() {
       .catch(err => console.log(err));
   };
 
-  const handleChange = (event) => {
-    console.log(event.target.id);
+  const handleChange = (event) => { // filledBoard is an empty array in here for some reason
+    const newBoard = [[], [], [], [], [], [], [], [], [] ];
+    console.log(newBoard, filledBoard);
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        newBoard[i][j] = filledBoard[i][j];
+      }
+    }
+    console.log(newBoard, filledBoard);
+    newBoard[parseInt(event.target.id[0])][parseInt(event.target.id[0])] = parseInt(event.target.value);
+    setFilledBoard(newBoard);
+  };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(filledBoard);
   };
 
   const makeBoardComponent = (inputBoard) => {
@@ -52,9 +74,9 @@ function Sudoku() {
 
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
-        const key = `${i}${j}`
-        if (inputBoard[i][j] === 0) {
-          component.push(<input className="notFilled" key={key} id={key} value={null} onChange={handleChange} />);
+        const key = `${i}${j}`;
+        if (!preFilled.includes(key)) {
+          component.push(<input className="notFilled" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
         } else {
           component.push(<input className="preFilled" key={key} id={key} value={inputBoard[i][j]} disabled />);
         }
@@ -68,19 +90,30 @@ function Sudoku() {
     if (sudokuBoard.length === 0) {
       sudokuFetcher();
     }
-  })
+  });
 
   useEffect(() => {
-    if (sudokuBoard.length > 0) {
+    if (sudokuBoard.length > 0 && boardComponent.length === 0) {
       setBoardComponent(makeBoardComponent(sudokuBoard));
     }
-  }, [sudokuBoard])
+  });
 
-  if (boardComponent !== undefined) {
+  useEffect(() => {
+    if (filledBoard.length === 0 && sudokuBoard.length > 0) {
+      setFilledBoard(sudokuBoard);
+    }
+  });
+
+  if (boardComponent.length > 0 && filledBoard.length > 0) {
+    console.log(filledBoard)
     return (
       <div>
         <div className="boardContainer">
-          {boardComponent}
+          <form onSubmit={handleSubmit}>
+            {boardComponent}
+            <input type="submit" className="sudokuSubmit" />
+          </form>
+
         </div>
       </div>
     )
