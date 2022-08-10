@@ -8,23 +8,25 @@ const db = require('../db/db');
 const port = 3000;
 
 const app = express();
+
 app.use(compression());
-
 app.use(express.static(path.join(__dirname, '../client/public')));
-
 app.use(express.json());
 
 app.get('/newPuzzle', (req, res) => {
   const puzzleSol = sudokuGenerator();
   const newPuzzle = puzzleGenerator(puzzleSol);
-  // console.log(puzzleSol);
-  db.addPuzzle({puzzle: newPuzzle, solution: puzzleSol}, (data) => {
+
+  db.addPuzzle({id: req.params.id, puzzle: newPuzzle, solution: puzzleSol}, (data) => {
     res.send(data);
   });
+
 });
 
 app.post('/puzzleSol', (req, res) => {
+
     db.getSolution(req.body.id, (data) => {
+
       let errors = 0;
       for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
@@ -40,6 +42,7 @@ app.post('/puzzleSol', (req, res) => {
       }
 
   });
+
 });
 
 app.listen(port, () => {

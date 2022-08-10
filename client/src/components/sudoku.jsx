@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Need a 9x9 grid, with 3x3 subgrids
-
-// generator function and checker function on server
-// genreator function also returns the number of the board
-
 function Sudoku() {
 
   const [sudokuBoard, setSudokuBoard] = useState([]);
-  const [boardId, setBoardId] = useState({});
   const [boardComponent, setBoardComponent] = useState([]);
   const [preFilled, setPreFilled] = useState([]);
   const [boardForm, setBoardForm] = useState([]);
+  const [isSolved, setIsSolved] = useState([]);
+  const [currentId, setCurrentId] = useState([]);
 
   const sudokuFetcher = () => {
     const config = {
       method: "GET",
-      url: "http://localhost:3000/newPuzzle"
+      url: `http://localhost:3000/newPuzzle` ///${currentId}`
     }
     axios(config)
       .then((res) => {
+        setCurrentId(res.data.id);
         setSudokuBoard(res.data.puzzle);
-        setBoardId(res.data.id);
+        setBoardForm(res.data.puzzle);
         const filled = [];
         for (let i = 0; i < 9; i++) {
           for (let j = 0; j < 9; j++) {
@@ -35,6 +32,7 @@ function Sudoku() {
         if (filled.length > 0) {
           setPreFilled(filled);
         }
+        setIsSolved('null');
       })
       .catch(err => console.log(err));
 
@@ -42,7 +40,7 @@ function Sudoku() {
 
   const sudokuChecker = () => {
     const data = {
-      id: boardId,
+      id: currentId,
       puzzle: sudokuBoard,
     };
     const config = {
@@ -53,9 +51,9 @@ function Sudoku() {
     axios.post('/puzzleSol', data)
       .then((res) => {
         if (res.data === 'Valid') {
-
-        } else {
-
+         setIsSolved(true);
+        } else if (res.data === "Invalid") {
+          setIsSolved(false);
         }
       })
       .catch(err => console.log(err));
@@ -68,7 +66,15 @@ function Sudoku() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    sudokuChecker();
+    if (isSolved === true) {
+      setSudokuBoard([]);
+      setBoardForm([]);
+      setBoardComponent([]);
+      setPreFilled([]);
+      setCurrentId([]);
+    } else {
+      sudokuChecker();
+    }
   };
 
   const makeBoardComponent = (inputBoard) => {
@@ -89,8 +95,20 @@ function Sudoku() {
   };
 
   useEffect(() => {
-    if (sudokuBoard.length === 0) {
+    if (currentId.length === 0) {
+      setCurrentId(1);
+    }
+  });
+
+  useEffect(() => {
+    if (sudokuBoard.length === 0 && currentId > 0) {
       sudokuFetcher();
+    }
+  });
+
+  useEffect(() => {
+    if (isSolved.length === 0) {
+      setIsSolved('null')
     }
   });
 
@@ -109,14 +127,13 @@ function Sudoku() {
   if (boardComponent.length > 0) {
 
     return (
-      <div>
-        <div className="boardContainer">
-          <form onSubmit={handleSubmit}>
-            {boardComponent}
-            <input type="submit" className="sudokuSubmit" />
-          </form>
-
-        </div>
+      <div className="boardContainer">
+        <form onSubmit={handleSubmit}>
+          {boardComponent}
+          {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
+          {isSolved === false && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
+          {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
+        </form>
       </div>
     );
   }
