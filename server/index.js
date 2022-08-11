@@ -17,6 +17,7 @@ app.use(express.json());
 app.get('/newPuzzle', (req, res) => {
   const puzzleSol = sudokuGenerator();
   const newPuzzle = puzzleGenerator(puzzleSol);
+  // console.log(puzzleSol);
 
   db.addPuzzle({id: req.params.id, puzzle: newPuzzle, solution: puzzleSol}, (data) => {
     res.send(data);

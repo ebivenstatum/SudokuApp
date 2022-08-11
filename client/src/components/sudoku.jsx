@@ -13,7 +13,7 @@ function Sudoku() {
   const sudokuFetcher = () => {
     const config = {
       method: "GET",
-      url: `http://localhost:3000/newPuzzle` ///${currentId}`
+      url: `http://localhost:3000/newPuzzle`,
     }
     axios(config)
       .then((res) => {
@@ -51,7 +51,7 @@ function Sudoku() {
     axios.post('/puzzleSol', data)
       .then((res) => {
         if (res.data === 'Valid') {
-         setIsSolved(true);
+          setIsSolved(true);
         } else if (res.data === "Invalid") {
           setIsSolved(false);
         }
@@ -83,6 +83,7 @@ function Sudoku() {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
         const key = `${i}${j}`;
+
         if (!preFilled.includes(key)) {
           component.push(<input className="notFilled" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
         } else {
@@ -125,6 +126,7 @@ function Sudoku() {
   });
 
   if (boardComponent.length > 0) {
+    console.log(sudokuBoard);
 
     return (
       <div className="boardContainer">
