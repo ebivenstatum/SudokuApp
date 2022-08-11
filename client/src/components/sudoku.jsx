@@ -77,6 +77,14 @@ function Sudoku() {
     }
   };
 
+  const handleGiveUp = (event) => {
+    setSudokuBoard([]);
+    setBoardForm([]);
+    setBoardComponent([]);
+    setPreFilled([]);
+    setCurrentId([]);
+  };
+
   const makeBoardComponent = (inputBoard) => {
     const component = [];
 
@@ -136,6 +144,7 @@ function Sudoku() {
           {isSolved === false && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
           {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
         </form>
+        {isSolved === false && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
       </div>
     );
   }
