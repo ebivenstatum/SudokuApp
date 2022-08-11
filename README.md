@@ -1,1 +1,1 @@
-# SudokuAuth
+# SudokuApp
