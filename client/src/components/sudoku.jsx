@@ -91,11 +91,18 @@ function Sudoku() {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
         const key = `${i}${j}`;
-
-        if (!preFilled.includes(key)) {
-          component.push(<input className="notFilled" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
-        } else {
+        if (preFilled.includes(key)) {
           component.push(<input className="preFilled" key={key} id={key} value={inputBoard[i][j]} disabled />);
+
+        } else {
+          if ((i < 3 && j < 3) || (i < 3 && j > 5) || (i > 2 && i < 6 && j > 2 && j < 6) || (i > 5 && j < 3) || (i > 5 && j > 5)) {
+            component.push(<input className="notFilledColor" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
+
+          } else {
+
+            component.push(<input className="notFilledWhite" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
+
+          }
         }
       }
     }
@@ -134,7 +141,6 @@ function Sudoku() {
   });
 
   if (boardComponent.length > 0) {
-    console.log(sudokuBoard);
 
     return (
       <div className="boardContainer">
