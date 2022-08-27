@@ -28,7 +28,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1 className="topText" onClick={handleRulesClick}>Sudoku?</h1>
       {isOpen && <Info />}
       {!playingGame && <button className="sudokuSubmit" onClick={handleStart}>Start Game</button>}

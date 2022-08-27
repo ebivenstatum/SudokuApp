@@ -3,8 +3,7 @@ const path = require('path');
 const compression = require('compression');
 
 const sudokuGenerator = require('../components/sudokuGenerator');
-const puzzleGenerator = require('../components/puzzleGenerator');
-const db = require('../db/db');
+const solutionChecker = require('../components/solutionChecker');
 
 const port = 3000;
 
@@ -15,35 +14,13 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
 
 app.get('/newPuzzle', (req, res) => {
-  const puzzleSol = sudokuGenerator();
-  const newPuzzle = puzzleGenerator(puzzleSol);
-
-  db.addPuzzle({id: req.params.id, puzzle: newPuzzle, solution: puzzleSol}, (data) => {
-    res.send(data);
-  });
-
+  const newPuzzle = sudokuGenerator();
+  res.send(newPuzzle);
 });
 
 app.post('/puzzleSol', (req, res) => {
-
-    db.getSolution(req.body.id, (data) => {
-
-      let errors = 0;
-      for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-          if (data[i][j] !== req.body.puzzle[i][j]) {
-            errors++;
-          }
-        }
-      }
-      if (errors === 0) {
-        res.send('Valid');
-      } else {
-        res.send('Invalid')
-      }
-
-  });
-
+  const status = sudokuChecker(req.body.puzzle);
+  res.send(status);
 });
 
 app.listen(port, () => {
