@@ -10,17 +10,10 @@
   <title>Sudoku?</title>
 </head>
 
-<body>
-  <button class="theme-toggle" onClick="toggleFunc()"></button>
+<body class="day-theme">
   <!-- This element is where our react application will be mounted -->
   <div id="root"></div>
 
-  <script>
-    function toggleFunc() {
-       var element = document.body;
-       element.classList.toggle("classic-mode");
-    }
-    </script>
   <!-- This script will be created with webpack-->
   <script src="./bundle.js"></script>
 

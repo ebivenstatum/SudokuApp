@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import Themes from './components/themes';
 import Sudoku from './components/sudoku';
 import Info from './components/info';
 
@@ -18,6 +18,7 @@ function App() {
 
   return (
     <div className="container">
+      <Themes />
       <h1 className="topText" onClick={handleRulesClick}>Sudoku?</h1>
       {isOpen && <Info />}
       {!playingGame && <button className="sudokuSubmit" onClick={handleStart}>Start Game</button>}
