@@ -90,6 +90,7 @@ function Sudoku() {
 
         } else {
           if ((i < 3 && j < 3) || (i < 3 && j > 5) || (i > 2 && i < 6 && j > 2 && j < 6) || (i > 5 && j < 3) || (i > 5 && j > 5)) {
+
             component.push(<input className="notFilledColor" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
 
           } else {
@@ -120,6 +121,16 @@ function Sudoku() {
 
     return (
       <div>
+        <div className="boardContainer">
+          <form onSubmit={handleSubmit}>
+            {boardComponent}
+            {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
+            {!isSolved && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
+            {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
+          </form>
+          {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
+        </div>
+
         <div className="gridContainer">
           <div className="grid"></div>
           <div className="grid"></div>
@@ -130,16 +141,6 @@ function Sudoku() {
           <div className="grid"></div>
           <div className="grid"></div>
           <div className="grid"></div>
-        </div>
-
-        <div className="boardContainer">
-          <form onSubmit={handleSubmit}>
-            {boardComponent}
-            {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
-            {!isSolved && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
-            {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
-          </form>
-          {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
         </div>
       </div>
     );

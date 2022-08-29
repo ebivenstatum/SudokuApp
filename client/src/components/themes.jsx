@@ -9,13 +9,13 @@ function Themes() {
     const newTheme = event.target.id;
 
     if (oldTheme !== newTheme) {
-      element.classList.remove(oldTheme);
       element.classList.add(newTheme);
+      element.classList.remove(oldTheme);
     }
   }
 
   return (
-    <div>
+    <div className="themeContainer">
       <BsSun className="theme-toggle" id="day-theme" onClick={toggleTheme} />
 
       <BsSunset className="theme-toggle" id="sunset-theme" onClick={toggleTheme} />

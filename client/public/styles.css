@@ -1,32 +1,50 @@
+#root {
+  width: 100%;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 .day-theme {
   height: 1025px;
+  --first-color: red;
+  --second-color: cyan;
 }
 
 .sunset-theme {
   height: 1025px;
   background-image: linear-gradient(to bottom, rgba(255, 192, 203, 0.5), rgba(0, 255, 255, 0.5)), url('./icons/favicon.ico');
   background-repeat: repeat;
+  --first-color: red;
+  --second-color: cyan;
 }
 
 .night-theme {
   height: 1025px;
   background-color: black;
+  --first-color: rgb(181, 0, 181);
+  --second-color: orange;
+}
+
+.themeContainer {
+  width: 150px;
+  height: 30px;
 }
 
 .theme-toggle {
   width: 20px;
   height: 20px;
   padding: 10px;
-  background-color: red;
-  border: solid 1px red;
-  box-shadow: 2px 2px 3px rgba(0, 255, 255);
+  background-color: var(--first-color);
+  border: solid 1px var(--first-color);
+  box-shadow: 2px 2px 3px gray;
+  color: var(--second-color);
 }
 
 .theme-toggle:hover {
-  background-color: cyan;
-  border: solid 1px cyan;
-  box-shadow: 2px 2px 3px rgba(255, 192, 203);
+  background-color: var(--second-color);
+  border: solid 1px var(--second-color);
   cursor: pointer;
+  color: var(--first-color);
 }
 
 #day-theme {
@@ -39,22 +57,16 @@
   border-bottom-right-radius: 20px;
 }
 
-#root {
-  width: 100%;
-  text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 .topText {
-  color: red;
+  color: var(--first-color);
   font-size: 60px;
   font-weight: bolder;
-  text-shadow: 3px 3px 3px rgba(0, 255, 255, 0.5);
+  text-shadow: 3px 3px 3px gray;
 }
 
 .topText:hover {
   cursor: help;
-  color: cyan;
+  color: var(--second-color);
 }
 
 .boardContainer {
@@ -62,24 +74,24 @@
   height: 523px;
   display: inline-block;
   align-items: center;
-  z-index: 1;
+  z-index: 3;
+  position: absolute;
 }
 
 .gridContainer {
   width: 520px;
   height: 497px;
-  z-index: 3;
+  z-index: 1;
   display: inline-block;
   margin-left: 10px;
   margin-top: 1px;
   align-items: center;
-  position: absolute;
 }
 
 .grid {
   width: 173px;
   height: 165px;
-  outline: solid 2px red;
+  outline: solid 2px var(--first-color);
   display: inline-block;
 }
 
@@ -88,8 +100,9 @@
   height: 50px;
   text-align: center;
   margin: 1px;
+  color: black;
   background-color: white;
-  border: solid 1px red;
+  border: solid 1px var(--first-color);
 }
 
 .notFilledWhite:hover {
@@ -102,8 +115,9 @@
   height: 50px;
   text-align: center;
   margin: 1px;
+  color: black;
   background-color: lightgray;
-  border: solid 1px red;
+  border: solid 1px var(--first-color);
 }
 
 .notFilledColor:hover {
@@ -115,14 +129,15 @@
   width: 50px;
   height: 50px;
   text-align: center;
+  color: black;
   font-weight: bold;
-  background-color: cyan;
+  background-color: var(--second-color);
   margin: 1px;
-  border: solid 1px red;
+  border: solid 1px var(--first-color);
 }
 
 .subgrid {
-  border: solid red;
+  border: solid var(--first-color);
   width: 160px;
   height: 160px;
 }
@@ -131,17 +146,17 @@
   margin-top: 50px;
   width: 200px;
   height: 50px;
-  background-color: red;
-  border: solid red;
+  background-color: var(--first-color);
+  border: solid var(--first-color);
   border-radius: 75px;
-  color: white;
+  color: var(--second-color);
   font-weight: bold;
-  box-shadow: 3px 3px 3px rgba(255, 192, 203);
+  box-shadow: 3px 3px 3px gray;
 }
 
 .sudokuSubmit:hover {
-  background-color: white;
-  color: red;
+  background-color: var(--second-color);
+  color: var(--first-color);
   cursor: pointer;
 }
 
@@ -149,7 +164,7 @@
   width: 540px;
   height: 650px;
   z-index: 5;
-  background-color: red;
+  background-color: var(--first-color);
   color: white;
   align-items: center;
   position: absolute;
