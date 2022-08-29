@@ -119,14 +119,28 @@ function Sudoku() {
   if (boardComponent.length > 0) {
 
     return (
-      <div className="boardContainer">
-        <form onSubmit={handleSubmit}>
-          {boardComponent}
-          {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
-          {!isSolved && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
-          {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
-        </form>
-        {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
+      <div>
+        <div className="gridContainer">
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+          <div className="grid"></div>
+        </div>
+
+        <div className="boardContainer">
+          <form onSubmit={handleSubmit}>
+            {boardComponent}
+            {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
+            {!isSolved && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
+            {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
+          </form>
+          {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
+        </div>
       </div>
     );
   }
