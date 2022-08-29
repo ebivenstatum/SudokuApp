@@ -1,5 +1,5 @@
-import premadeBoards from './premadeBoards';
-import puzzleGenerator from './puzzleGenerator';
+const premadeBoards = require('./premadeBoards');
+const puzzleGenerator = require('./puzzleGenerator');
 
 const sudokuGenerator = () => {
 

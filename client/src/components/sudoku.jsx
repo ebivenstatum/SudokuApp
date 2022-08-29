@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import sudokuFetcher from './sudokuFetcher';
-import sudokuChecker from './sudokuChecker';
-
 function Sudoku() {
 
-  const [sudokuBoard, setSudokuBoard] = useState([]);
-  const [boardComponent, setBoardComponent] = useState([]);
-  const [preFilled, setPreFilled] = useState([]);
-  const [boardForm, setBoardForm] = useState([]);
-  const [isSolved, setIsSolved] = useState([]);
+  const [sudokuBoard, setSudokuBoard] = useState(false);
+  const [boardComponent, setBoardComponent] = useState(false);
+  const [preFilled, setPreFilled] = useState(false);
+  const [boardForm, setBoardForm] = useState(false);
+  const [isSolved, setIsSolved] = useState('null');
 
   const handleChange = (event) => {
     sudokuBoard[parseInt(event.target.id[0])][parseInt(event.target.id[1])] = parseInt(event.target.value);
@@ -20,22 +17,66 @@ function Sudoku() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isSolved === true) {
-      setSudokuBoard([]);
-      setBoardForm([]);
-      setBoardComponent([]);
-      setPreFilled([]);
-      setCurrentId([]);
+      setSudokuBoard(false);
+      setBoardForm(false);
+      setBoardComponent(false);
+      setPreFilled(false);
     } else {
       sudokuChecker();
     }
   };
 
   const handleGiveUp = (event) => {
-    setSudokuBoard([]);
-    setBoardForm([]);
-    setBoardComponent([]);
-    setPreFilled([]);
-    setCurrentId([]);
+    setSudokuBoard(false);
+    setBoardForm(false);
+    setBoardComponent(false);
+    setPreFilled(false);
+  };
+
+  const sudokuFetcher = () => {
+    const config = {
+      method: "GET",
+      url: `http://localhost:3000/newPuzzle`,
+    }
+    axios(config)
+      .then((res) => {
+        setSudokuBoard(res.data);
+        setBoardForm(res.data);
+        const filled = [];
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            if (res.data[i][j] !== 0) {
+              filled.push(`${i}${j}`)
+            }
+          }
+        }
+        if (filled.length > 0) {
+          setPreFilled(filled);
+        }
+        setIsSolved('null');
+      })
+      .catch(err => console.log(err));
+
+  };
+
+  const sudokuChecker = () => {
+    const data = {
+      puzzle: sudokuBoard,
+    };
+    const config = {
+      method: "POST",
+      url: "/puzzleSol",
+      data: data,
+    }
+    axios.post('/puzzleSol', data)
+      .then((res) => {
+        if (res.data.solved) {
+          setIsSolved(true);
+        } else {
+          setIsSolved(false);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   const makeBoardComponent = (inputBoard) => {
@@ -64,16 +105,13 @@ function Sudoku() {
   };
 
   useEffect(() => {
-    if (sudokuBoard.length === 0 && currentId > 0) {
+    if (!sudokuBoard) {
       sudokuFetcher();
     }
-    if (isSolved.length === 0) {
-      setIsSolved('null')
-    }
-    if (boardForm.length === 0 && sudokuBoard.length > 0) {
+    if (!boardForm && sudokuBoard.length > 0) {
       setBoardForm(sudokuBoard);
     }
-    if (sudokuBoard.length > 0 && boardComponent.length === 0) {
+    if (sudokuBoard.length > 0 && !boardComponent) {
       setBoardComponent(makeBoardComponent(sudokuBoard));
     }
   });
@@ -85,10 +123,10 @@ function Sudoku() {
         <form onSubmit={handleSubmit}>
           {boardComponent}
           {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
-          {isSolved === false && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
+          {!isSolved && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
           {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
         </form>
-        {isSolved === false && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
+        {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
       </div>
     );
   }

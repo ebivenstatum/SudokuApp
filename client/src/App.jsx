@@ -5,19 +5,8 @@ import Info from './components/info';
 
 function App() {
 
-  const [isOpen, setIsOpen] = useState([]);
-  const [playingGame, setPlayingGame] = useState([]);
-
-  useEffect(() => {
-    if (isOpen.length === 0) {
-      setIsOpen(false);
-    }
-  });
-  useEffect(() => {
-    if (playingGame.length === 0) {
-      setPlayingGame(false);
-    }
-  });
+  const [isOpen, setIsOpen] = useState(false);
+  const [playingGame, setPlayingGame] = useState(false);
 
   const handleRulesClick = (event) => {
     setIsOpen(!isOpen);

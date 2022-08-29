@@ -4,7 +4,7 @@ const solutionChecker = (board) => {
     for (let i = 0; i < 9; i++) {
       let sum = 0;
       for (let j = 0; i < 9; i++) {
-        sum += Number(rows[i][j]);
+        sum += Number(board[i][j]);
       }
       if (sum !== 45) {
         return false;
@@ -15,10 +15,10 @@ const solutionChecker = (board) => {
     for (let i = 0; i < 9; i++) {
       let sum = 0;
       for (let j = 0; i < 9; i++) {
-        sum += Number(rows[j][i]);
+        sum += Number(board[j][i]);
       }
       if (sum !== 45) {
-        return 'false;
+        return false;
       }
     }
 
@@ -29,7 +29,7 @@ const solutionChecker = (board) => {
 
         for (let k = i; k < i + 3; k++) {
           for (let l = j; l < j + 3; l++) {
-            sum += Number(rows[k][l]);
+            sum += Number(board[k][l]);
           }
         }
 

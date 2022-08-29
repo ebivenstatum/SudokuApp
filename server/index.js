@@ -19,8 +19,8 @@ app.get('/newPuzzle', (req, res) => {
 });
 
 app.post('/puzzleSol', (req, res) => {
-  const status = sudokuChecker(req.body.puzzle);
-  res.send(status);
+  const status = solutionChecker(req.body.puzzle);
+  res.send({solved: status});
 });
 
 app.listen(port, () => {
