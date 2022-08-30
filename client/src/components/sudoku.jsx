@@ -130,18 +130,6 @@ function Sudoku() {
           </form>
           {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
         </div>
-
-        <div className="gridContainer">
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-          <div className="grid"></div>
-        </div>
       </div>
     );
   }
