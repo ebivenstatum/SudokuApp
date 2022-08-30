@@ -8,6 +8,8 @@
   height: 1025px;
   --first-color: red;
   --second-color: cyan;
+  --third-color: rgb(149, 255, 255);
+  --fourth-color: gray;
 }
 
 .sunset-theme {
@@ -16,6 +18,8 @@
   background-repeat: repeat;
   --first-color: red;
   --second-color: cyan;
+  --third-color: rgb(149, 255, 255);
+  --fourth-color: gray;
 }
 
 .night-theme {
@@ -23,6 +27,8 @@
   background-color: black;
   --first-color: rgb(181, 0, 181);
   --second-color: orange;
+  --third-color: rgb(255, 193, 78);
+  --fourth-color: rgb(71, 71, 71);
 }
 
 .themeContainer {
@@ -36,7 +42,7 @@
   padding: 10px;
   background-color: var(--first-color);
   border: solid 1px var(--first-color);
-  box-shadow: 2px 2px 3px gray;
+  box-shadow: 2px 2px 3px var(--fourth-color);
   color: var(--second-color);
 }
 
@@ -58,10 +64,15 @@
 }
 
 .topText {
+  width: 250px;
   color: var(--first-color);
   font-size: 60px;
   font-weight: bolder;
-  text-shadow: 3px 3px 3px gray;
+  text-shadow: 3px 3px 3px var(--fourth-color);
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .topText:hover {
@@ -106,7 +117,7 @@
 }
 
 .notFilledWhite:hover {
-  background: rgba(255, 192, 203);
+  background: var(--third-color);
   cursor: text;
 }
 
@@ -121,7 +132,7 @@
 }
 
 .notFilledColor:hover {
-  background: rgba(255, 192, 203);
+  background: var(--third-color);
   cursor: text;
 }
 
@@ -149,14 +160,13 @@
   background-color: var(--first-color);
   border: solid var(--first-color);
   border-radius: 75px;
-  color: var(--second-color);
+  color: white;
   font-weight: bold;
-  box-shadow: 3px 3px 3px gray;
+  box-shadow: 3px 3px 3px var(--fourth-color);
 }
 
 .sudokuSubmit:hover {
   background-color: var(--second-color);
-  color: var(--first-color);
   cursor: pointer;
 }
 
@@ -171,5 +181,8 @@
   padding: 20px;
   font-weight: bold;
   line-height: 50px;
-  margin-left: 22%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
