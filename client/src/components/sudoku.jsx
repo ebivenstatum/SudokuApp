@@ -120,8 +120,8 @@ function Sudoku() {
   if (boardComponent.length > 0) {
 
     return (
-      <div>
-        <div className="boardContainer">
+      <div className="boardContainer">
+        <div className="boardGrid">
           <form onSubmit={handleSubmit}>
             {boardComponent}
             {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
