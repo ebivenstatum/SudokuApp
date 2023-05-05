@@ -6,11 +6,16 @@
 ![Axios](https://img.shields.io/badge/-Axios-671ddf?logo=axios&logoColor=black&style=for-the-badge)
 
 An update to the previous "lightweight" version.
+  Altered construction of the board.
+  Replaced type input with a number board.
+  General CSS updates.
 
 Terminal commands for dev:
-npm install
-npm start
-npm run server-dev
+  npm install
+  npm start
+  npm run server-dev
 
 Terminal commands for prod:
-npm install
+  npm install
+  npm run build
+  node bundle.js
