@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import Numbers from './numbers';
 
 function Sudoku() {
 
@@ -8,10 +9,23 @@ function Sudoku() {
   const [preFilled, setPreFilled] = useState(false);
   const [boardForm, setBoardForm] = useState(false);
   const [isSolved, setIsSolved] = useState('null');
+  const [currentNumber, setCurrentNumber] = useState('null');
+  const currentNum = useRef("");
+
+  const handleNumberClick = (event) => {
+    setCurrentNumber(event.target.id);
+    currentNum.current = event.target.id;
+  }
 
   const handleChange = (event) => {
-    sudokuBoard[parseInt(event.target.id[0])][parseInt(event.target.id[1])] = parseInt(event.target.value);
+    if (currentNumber === 'erase') {
+      sudokuBoard[parseInt(event.target.id[0])][parseInt(event.target.id[1])] = 0;
+    } else {
+      sudokuBoard[parseInt(event.target.id[0])][parseInt(event.target.id[1])] = parseInt(currentNum.current);
+    }
+
     setBoardForm(sudokuBoard);
+    setBoardComponent(makeBoardComponent(sudokuBoard));
   };
 
   const handleSubmit = (event) => {
@@ -86,16 +100,16 @@ function Sudoku() {
       for (let j = 0; j < 9; j++) {
         const key = `${i}${j}`;
         if (preFilled.includes(key)) {
-          component.push(<input className="cell preFilled" key={key} id={key} value={inputBoard[i][j]} disabled />);
+          component.push(<input className="cell preFilled" type="button" key={key} id={key} value={inputBoard[i][j]} />);
 
         } else {
           if ((i < 3 && j < 3) || (i < 3 && j > 5) || (i > 2 && i < 6 && j > 2 && j < 6) || (i > 5 && j < 3) || (i > 5 && j > 5)) {
 
-            component.push(<input className="cell notFilledColor" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
+            component.push(<input className="cell notFilledColor" type="button" key={key} id={key} onClick={handleChange} value={inputBoard[i][j] || " "}/>);
 
           } else {
 
-            component.push(<input className="cell notFilledWhite" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
+            component.push(<input className="cell notFilledWhite" type="button" key={key} id={key} onClick={handleChange} value={inputBoard[i][j] || " "}/>);
 
           }
         }
@@ -121,6 +135,7 @@ function Sudoku() {
 
     return (
       <div className="boardContainer">
+        <Numbers handleNumberClick={handleNumberClick}currentNumber={currentNumber} />
         <div className="boardGrid">
           <form onSubmit={handleSubmit}>
             {boardComponent}
@@ -138,18 +153,3 @@ function Sudoku() {
 };
 
 export default Sudoku;
-
-/*
-<div className="numberSelectGrid">
-            <div className="cell numberSelect">Erase</div>
-            <div className="cell numberSelect">1</div>
-            <div className="cell numberSelect">2</div>
-            <div className="cell numberSelect">3</div>
-            <div className="cell numberSelect">4</div>
-            <div className="cell numberSelect">5</div>
-            <div className="cell numberSelect">6</div>
-            <div className="cell numberSelect">7</div>
-            <div className="cell numberSelect">8</div>
-            <div className="cell numberSelect">9</div>
-        </div>
-*/

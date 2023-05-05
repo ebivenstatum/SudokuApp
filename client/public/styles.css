@@ -95,14 +95,15 @@
 .boardGrid {
   display: grid;
   margin-top: 50px;
-  grid-template-columns: 505px 1fr;
-  grid-template-rows: 505px 1fr;
+  grid-template-columns: 450px 1fr;
+  grid-template-rows: 450px 1fr;
   gap: 1px;
 }
 
 .cell {
   width: 50px;
   height: 50px;
+  overflow: visible;
   text-align: center;
   color: black;
   outline: solid 1px var(--first-color);
@@ -119,7 +120,7 @@
 
 .notFilledWhite:hover, .notFilledColor:hover {
   background: var(--third-color);
-  cursor: text;
+  cursor: pointer;
 }
 
 .preFilled {
@@ -159,7 +160,7 @@
   line-height: 40px;
   left: 0;
   right: 0;
-  top: 200px;
+  top: 180px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -169,13 +170,12 @@
   text-align: center;
 }
 
-/*
-.numberSelectGrid {
+.numberContainer {
   display: grid;
-  grid-template-columns: repeat(5, 50px);
-  grid-template-rows: repeat(2, 50px);
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 100px 1fr;
   gap: 1px;
-  margin-left: 25%;
+  margin-left: 100px;
 }
 
 .numberSelect {
@@ -187,8 +187,11 @@
   line-height: 50px;
 }
 
+.on {
+  background-color: var(--first-color);
+}
+
 .numberSelect:hover {
   background-color: var(--first-color);
   cursor: pointer;
 }
-*/
