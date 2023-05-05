@@ -86,16 +86,16 @@ function Sudoku() {
       for (let j = 0; j < 9; j++) {
         const key = `${i}${j}`;
         if (preFilled.includes(key)) {
-          component.push(<input className="preFilled" key={key} id={key} value={inputBoard[i][j]} disabled />);
+          component.push(<input className="cell preFilled" key={key} id={key} value={inputBoard[i][j]} disabled />);
 
         } else {
           if ((i < 3 && j < 3) || (i < 3 && j > 5) || (i > 2 && i < 6 && j > 2 && j < 6) || (i > 5 && j < 3) || (i > 5 && j > 5)) {
 
-            component.push(<input className="notFilledColor" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
+            component.push(<input className="cell notFilledColor" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
 
           } else {
 
-            component.push(<input className="notFilledWhite" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
+            component.push(<input className="cell notFilledWhite" type="number" min="1" max="9" key={key} id={key} onChange={handleChange} />);
 
           }
         }
@@ -127,8 +127,9 @@ function Sudoku() {
             {isSolved === 'null' && <input type="submit" className="sudokuSubmit" value="Submit" />}
             {!isSolved && <input type="submit" className="sudokuSubmit" value="Incorrect. Try Again" />}
             {isSolved === true && <input type="submit" className="sudokuSubmit" value="Correct. New Puzzle?" />}
+            <br></br>
+            {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
           </form>
-          {!isSolved && <button className="sudokuSubmit" onClick={handleGiveUp}>Give up?</button>}
         </div>
       </div>
     );
@@ -137,3 +138,18 @@ function Sudoku() {
 };
 
 export default Sudoku;
+
+/*
+<div className="numberSelectGrid">
+            <div className="cell numberSelect">Erase</div>
+            <div className="cell numberSelect">1</div>
+            <div className="cell numberSelect">2</div>
+            <div className="cell numberSelect">3</div>
+            <div className="cell numberSelect">4</div>
+            <div className="cell numberSelect">5</div>
+            <div className="cell numberSelect">6</div>
+            <div className="cell numberSelect">7</div>
+            <div className="cell numberSelect">8</div>
+            <div className="cell numberSelect">9</div>
+        </div>
+*/
