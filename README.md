@@ -11,11 +11,11 @@ An update to the previous "lightweight" version.
   General CSS updates.
 
 Terminal commands for dev:
-  npm install
-  npm start
-  npm run server-dev
+  npm install,
+  npm start,
+  npm run server-dev.
 
 Terminal commands for prod:
-  npm install
-  npm run build
-  node bundle.js
+  npm install,
+  npm run build,
+  node server/index.js.
